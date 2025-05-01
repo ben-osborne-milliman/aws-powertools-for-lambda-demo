@@ -34,7 +34,7 @@ public class Function
         return upperCaseString;
     }
 
-    [Metrics(CaptureColdStart = true)]
+    [Metrics(CaptureColdStart = true, Namespace = "PwrTlzDemo")]
     [Tracing(SegmentName = "UpperCaseString Method")]
     private static string UpperCaseString(string input)
     {

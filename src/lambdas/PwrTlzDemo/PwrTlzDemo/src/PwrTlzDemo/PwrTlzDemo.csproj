@@ -22,5 +22,8 @@
         <InternalsVisibleTo Include="PwrTlzDemo.Tests" />
         <InternalsVisibleTo Include="PwrTlzDemo.TestClient" />
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Providers\" />
     </ItemGroup>    
 </Project>
