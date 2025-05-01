@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-ecommerce-schema
+      author: ben.osborne@milliman.com
+      changes:
+        - sqlFile:
+            path: schemas/ecommerce--0001.sql
+            splitStatements: false
+            relativeToChangelogFile: true
+  - changeSet:
+      id: create-lambda-user
+      author: ben.osborne@milliman.com
+      changes:
+        - sqlFile:
+            path: roles/lambda_user--0001.sql
+            splitStatements: false
+            relativeToChangelogFile: true
+  - changeSet:
+      id: create-products-table
+      author: ben.osborne@milliman.com
+      changes:
+        - sqlFile:
+            path: tables/ecommerce/products--0001.sql
+            splitStatements: false
+            relativeToChangelogFile: true
