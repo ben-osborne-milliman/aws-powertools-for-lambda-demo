@@ -29,6 +29,8 @@ public class Function
     [Tracing]
     public async Task<IEnumerable<Product>> FunctionHandler(ILambdaContext context)
     {
+        Tracing.RegisterForAllServices();
+
         var entryPointService = ServiceProviderBuilder
             .Build()
             .GetRequiredService<ProductsService>();

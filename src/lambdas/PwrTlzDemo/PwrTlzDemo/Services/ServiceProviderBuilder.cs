@@ -2,6 +2,7 @@ using Amazon;
 using Amazon.Runtime;
 using Amazon.Runtime.CredentialManagement;
 using Amazon.XRay.Recorder.Handlers.System.Net;
+using AWS.Lambda.Powertools.Tracing;
 using IntelliScript.RdsPgConnector.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -11,8 +12,10 @@ namespace PwrTlzDemo.Services;
 
 internal static class ServiceProviderBuilder
 {
-    public static IServiceProvider Build() =>
-        new ServiceCollection()
+    [Tracing]
+    public static IServiceProvider Build()
+    {
+        var serviceCollection = new ServiceCollection()
             .AddLogging(builder => builder.AddLambdaLogger())
             .AddScoped<HttpClientXRayTracingHandler>()
             .AddHttpClient().ConfigureHttpClientDefaults(configure =>
@@ -25,6 +28,8 @@ internal static class ServiceProviderBuilder
                 () => GetAwsCredentials(),
                 () => RegionEndpoint.GetBySystemName(Environment.GetEnvironmentVariable("AWS_REGION")))
             .BuildServiceProvider();
+        return serviceCollection;
+    }
 
     private static readonly Func<AWSCredentials> GetAwsCredentials = () =>
     {

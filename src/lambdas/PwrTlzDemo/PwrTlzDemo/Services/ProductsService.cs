@@ -1,3 +1,4 @@
+using AWS.Lambda.Powertools.Tracing;
 using Microsoft.Extensions.Logging;
 using PwrTlzDemo.Models;
 using PwrTlzDemo.Providers;
@@ -14,6 +15,7 @@ internal class ProductsService
             ecommerceDataProvider ?? throw new ArgumentNullException(nameof(ecommerceDataProvider));
     }
 
+    [Tracing]
     public async Task<IEnumerable<Product>> ExecuteAsync()
     {
         var products = await _ecommerceDataProvider.GetProductsAsync();

@@ -1,7 +1,10 @@
+using AWS.Lambda.Powertools.Tracing;
 using Dapper;
 using dotenv.net.Utilities;
 using IntelliScript.RdsPgConnector.Abstractions;
+using IntelliScript.RdsPgConnector.Messaging;
 using IntelliScript.RdsPgConnector.Models;
+using Npgsql;
 using PwrTlzDemo.Models;
 
 namespace PwrTlzDemo.Providers;
@@ -15,7 +18,15 @@ internal class EcommerceDataProvider
         _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
     }
 
+    [Tracing]
     public async Task<IEnumerable<Product>> GetProductsAsync()
+    {
+        await using var connection = await GetConnectionAsync();
+        return await connection.QueryAsync<Product>("SELECT * FROM ecommerce.products;");
+    }
+
+    [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
+    private async Task<NpgsqlConnection> GetConnectionAsync()
     {
         var connectionResponse = await _connectionFactory
             .GetConnectionAsync(new ConnectionRequest
@@ -33,8 +44,6 @@ internal class EcommerceDataProvider
         if(!connectionResponse.Success)
             throw new AggregateException(string.Join(Environment.NewLine, connectionResponse.Errors));
 
-        await using var connection = connectionResponse.Connection!;
-
-        return await connection.QueryAsync<Product>("SELECT * FROM ecommerce.products;");
+        return connectionResponse.Connection!;
     }
 }

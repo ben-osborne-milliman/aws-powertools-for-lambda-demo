@@ -38,6 +38,10 @@ module "lambda" {
       value = local.role
     },
     {
+      name = "POWERTOOLS_TRACER_CAPTURE_RESPONSE",
+      value = "false"
+    },
+    {
       name = "DB_HOST",
       value = "int-demo-dev-db.dev-equifax.acs.millimanintelliscript.com"
     },
