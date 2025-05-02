@@ -27,3 +27,11 @@ databaseChangeLog:
             path: tables/ecommerce/products--0001.sql
             splitStatements: false
             relativeToChangelogFile: true
+  - changeSet:
+      id: grandt-lambda-user-permissions
+      author: ben.osborne@milliman.com
+      changes:
+        - sqlFile:
+            path: roles/lambda_user--0003.sql
+            splitStatements: false
+            relativeToChangelogFile: true
