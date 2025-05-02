@@ -9,6 +9,7 @@ module "base_tags" {
   line_of_business = local.line_of_business
   lifespan         = "temporary"
   owner_email      = "ben.osborne@milliman.com"
+  map_migrated     = "exclude"
 }
 
 module "ip_address_ranges" {

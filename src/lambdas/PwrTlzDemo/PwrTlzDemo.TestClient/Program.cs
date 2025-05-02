@@ -8,8 +8,8 @@ internal static class Program
     public static async Task Main(string[] args)
     {
         DotEnv.Load(new DotEnvOptions(envFilePaths: [
-            "./.env.dev"
-            // "./.env.local"
+            //"./.env.dev"
+            "./.env.local"
         ]));
 
         await TestService.VerifySessionAsync();

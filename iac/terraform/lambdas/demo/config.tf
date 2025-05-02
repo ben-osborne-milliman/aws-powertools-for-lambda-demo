@@ -16,6 +16,7 @@ terraform {
     region         = "us-east-1"
     dynamodb_table = "tf-lock"
     bucket         = "mi-tfstate-int-equifax-dev"
-    key            = "demo7/db"
+    key            = "demo7/lambdas/pwrtlz-demo"
   }
+
 }
