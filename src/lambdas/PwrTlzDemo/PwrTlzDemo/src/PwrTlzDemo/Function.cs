@@ -25,6 +25,7 @@ public class Function
     /// <param name="input">The event for the Lambda function handler to process.</param>
     /// <param name="context">The ILambdaContext that provides methods for logging and describing the Lambda environment.</param>
     /// <returns></returns>
+    [Metrics(CaptureColdStart = true, Namespace = "PwrTlzDemo")]
     [Logging(LogEvent = true)]
     [Tracing]
     public async Task<string> FunctionHandler(string input, ILambdaContext context)
@@ -35,27 +36,6 @@ public class Function
 
         await ordersService.ExecuteAsync();
 
-        var upperCaseString = UpperCaseString(input);
-
-        Logger.LogInformation($"Uppercase of '{input}' is {upperCaseString}");
-
-        return upperCaseString;
-    }
-
-    [Metrics(CaptureColdStart = true, Namespace = "PwrTlzDemo")]
-    [Tracing(SegmentName = "UpperCaseString Method")]
-    private static string UpperCaseString(string input)
-    {
-        try
-        {
-            Metrics.AddMetric("UpperCaseString_Invocations", 1, MetricUnit.Count);
-
-            return input.ToUpper();
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex);
-            throw;
-        }
+        return "Function executed";
     }
 }

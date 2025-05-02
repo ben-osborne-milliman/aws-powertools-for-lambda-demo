@@ -30,8 +30,11 @@ internal class EcommerceDataProvider
                 Pooling = true
             }, CancellationToken.None);
 
+        if(!connectionResponse.Success)
+            throw new AggregateException(string.Join(Environment.NewLine, connectionResponse.Errors));
+
         await using var connection = connectionResponse.Connection!;
 
-        return await connection.QueryAsync<Product>("SELECT * FROM ecommerce.products");
+        return await connection.QueryAsync<Product>("SELECT * FROM ecommerce.products;");
     }
 }
