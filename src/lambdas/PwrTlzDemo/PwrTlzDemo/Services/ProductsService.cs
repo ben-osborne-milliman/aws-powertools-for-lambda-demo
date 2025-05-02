@@ -16,7 +16,7 @@ internal class ProductsService
     }
 
     [Tracing]
-    public async Task<IEnumerable<Product>> ExecuteAsync()
+    public async Task<IEnumerable<Product>> GetProductsAsync()
     {
         var products = await _ecommerceDataProvider.GetProductsAsync();
         return products;

@@ -24,6 +24,8 @@ internal static class ServiceProviderBuilder
             })
             .AddSingleton<EcommerceDataProvider>()
             .AddSingleton<ProductsService>()
+            .AddSingleton<LibraryService>()
+            .AddSingleton<HandlerService>()
             .ConfigureRdsPgConnector(
                 () => GetAwsCredentials(),
                 () => RegionEndpoint.GetBySystemName(Environment.GetEnvironmentVariable("AWS_REGION")))

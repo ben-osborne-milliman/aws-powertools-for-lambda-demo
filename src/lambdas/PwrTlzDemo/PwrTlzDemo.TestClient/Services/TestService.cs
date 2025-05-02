@@ -29,7 +29,10 @@ public static class TestService
 
         var results = await function.FunctionHandler(mockLambdaContext.Object);
 
-        foreach(var item in results)
+        foreach(var item in results.Products)
+            AnsiConsole.WriteLine(item.ToString());
+
+        foreach(var item in results.Books)
             AnsiConsole.WriteLine(item.ToString());
     }
 
