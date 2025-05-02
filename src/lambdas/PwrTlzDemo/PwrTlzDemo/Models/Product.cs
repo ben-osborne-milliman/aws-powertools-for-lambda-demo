@@ -1,6 +1,6 @@
 namespace PwrTlzDemo.Models;
 
-internal record Product
+public record Product
 {
     public required int Id { get; init; }
 

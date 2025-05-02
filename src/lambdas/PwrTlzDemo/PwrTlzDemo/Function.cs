@@ -3,6 +3,7 @@ using AWS.Lambda.Powertools.Logging;
 using AWS.Lambda.Powertools.Metrics;
 using AWS.Lambda.Powertools.Tracing;
 using Microsoft.Extensions.DependencyInjection;
+using PwrTlzDemo.Models;
 using PwrTlzDemo.Services;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -22,20 +23,18 @@ public class Function
     /// <summary>
     /// A simple function that takes a string and does a ToUpper
     /// </summary>
-    /// <param name="input">The event for the Lambda function handler to process.</param>
     /// <param name="context">The ILambdaContext that provides methods for logging and describing the Lambda environment.</param>
     /// <returns></returns>
     [Metrics(CaptureColdStart = true, Namespace = "PwrTlzDemo")]
-    [Logging(LogEvent = true)]
     [Tracing]
-    public async Task<string> FunctionHandler(string input, ILambdaContext context)
+    public async Task<IEnumerable<Product>> FunctionHandler(ILambdaContext context)
     {
-        var ordersService = ServiceProviderBuilder
+        var entryPointService = ServiceProviderBuilder
             .Build()
             .GetRequiredService<ProductsService>();
 
-        await ordersService.ExecuteAsync();
+        var result = await entryPointService.ExecuteAsync();
 
-        return "Function executed";
+        return result.Take(5);
     }
 }

@@ -14,7 +14,7 @@ terraform {
 
   backend "s3" {
     region         = "us-east-1"
-    dynamodb_table = "tf-lock"
+    use_lockfile = true
     bucket         = "mi-tfstate-int-equifax-dev"
     key            = "demo7/db"
   }

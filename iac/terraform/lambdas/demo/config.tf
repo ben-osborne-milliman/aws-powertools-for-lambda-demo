@@ -13,10 +13,10 @@ terraform {
   }
 
   backend "s3" {
-    region         = "us-east-1"
-    dynamodb_table = "tf-lock"
-    bucket         = "mi-tfstate-int-equifax-dev"
-    key            = "demo7/lambdas/pwrtlz-demo"
+    region       = "us-east-1"
+    use_lockfile = true
+    bucket       = "mi-tfstate-int-equifax-dev"
+    key          = "demo7/lambdas/pwrtlz-demo"
   }
 
 }

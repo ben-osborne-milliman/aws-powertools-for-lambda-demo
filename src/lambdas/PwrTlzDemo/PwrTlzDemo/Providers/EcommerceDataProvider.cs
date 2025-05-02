@@ -24,7 +24,7 @@ internal class EcommerceDataProvider
                 Port = EnvReader.GetIntValue("DB_PORT"),
                 Database = EnvReader.GetStringValue("DB_NAME"),
                 Username = EnvReader.GetStringValue("DB_USER"),
-                Password = EnvReader.GetStringValue("DB_PASSWORD"),
+                Password = EnvReader.TryGetStringValue("DB_PASSWORD", out var dbPassword) ? dbPassword : string.Empty,
                 RequireSsl = EnvReader.GetBooleanValue("DB_REQUIRE_SSL"),
                 UseIamAuth = EnvReader.GetBooleanValue("USE_IAM_AUTH"),
                 Pooling = true

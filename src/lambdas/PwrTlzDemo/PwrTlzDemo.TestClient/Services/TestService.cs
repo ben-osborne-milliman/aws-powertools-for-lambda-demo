@@ -27,9 +27,10 @@ public static class TestService
 
         var function = new Function();
 
-        var result = await function.FunctionHandler("Hello from the test client!", mockLambdaContext.Object);
+        var results = await function.FunctionHandler(mockLambdaContext.Object);
 
-        AnsiConsole.WriteLine(result);
+        foreach(var item in results)
+            AnsiConsole.WriteLine(item.ToString());
     }
 
     public static async Task VerifySessionAsync()
