@@ -15,6 +15,10 @@ databaseChangeLog:
             path: roles/lambda_user--0001.sql
             splitStatements: false
             relativeToChangelogFile: true
+        - sqlFile:
+            path: roles/lambda_user--0002.sql
+            splitStatements: false
+            relativeToChangelogFile: true
   - changeSet:
       id: create-products-table
       author: ben.osborne@milliman.com
