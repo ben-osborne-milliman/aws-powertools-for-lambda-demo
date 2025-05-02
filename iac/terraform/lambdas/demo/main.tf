@@ -25,7 +25,7 @@ module "lambda" {
   description           = "PowerTools Demo Function"
   memory_size           = 128
   timeout               = 30
-  build_output_path     = "../../../src/lambdas/PwrTlzDemo/PwrTlzDemo/bin/Release/net8.0"
+  build_output_path     = "../../../../src/lambdas/PwrTlzDemo/PwrTlzDemo/bin/Release/net8.0"
   security_group_ids    = [data.aws_security_group.default_security_groups.id]
   subnet_ids            = data.aws_subnets.private_subnets.ids
   enable_tracing        = true
@@ -38,4 +38,5 @@ module "lambda" {
       value = local.role
     }
   ]
+  depends_on = [ null_resource.build ]
 }
