@@ -24,7 +24,7 @@ internal class HandlerService
         return new InventoryResponse
         {
             Products = products.Take(5).ToList(),
-            Books = librarySearchResponse.Docs
+            Books = librarySearchResponse.Docs ?? []
         };
     }
 }
