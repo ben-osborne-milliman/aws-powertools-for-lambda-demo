@@ -9,7 +9,7 @@ using PwrTlzDemo.Providers;
 
 namespace PwrTlzDemo.Services;
 
-internal class ServiceProviderBuilder
+internal static class ServiceProviderBuilder
 {
     public static IServiceProvider Build() =>
         new ServiceCollection()
@@ -20,6 +20,7 @@ internal class ServiceProviderBuilder
                 configure.AddHttpMessageHandler<HttpClientXRayTracingHandler>();
             })
             .AddSingleton<EcommerceDataProvider>()
+            .AddSingleton<ProductsService>()
             .ConfigureRdsPgConnector(
                 () => GetAwsCredentials(),
                 () => RegionEndpoint.GetBySystemName(Environment.GetEnvironmentVariable("AWS_REGION")))

@@ -1,27 +1,22 @@
 ﻿using Amazon.Lambda.Core;
 using AutoFixture;
 using AutoFixture.AutoMoq;
+using dotenv.net;
 using Moq;
+using PwrTlzDemo.TestClient.Services;
 
 namespace PwrTlzDemo.TestClient;
 
-internal class Program
+internal static class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
-        var autoFixture = new Fixture();
-        autoFixture.Customize(
-            new CompositeCustomization(
-                new AutoMoqCustomization(),
-                new SupportMutableValueTypesCustomization())
-        );
+        DotEnv.Load(new DotEnvOptions(envFilePaths: [
+            "./.env.local"
+        ]));
 
-        var mockLambdaContext = autoFixture.Freeze<Mock<ILambdaContext>>();
+        await TestService.VerifySessionAsync();
 
-        var function = new PwrTlzDemo.Function();
-
-        var result = function.FunctionHandler("Hello from the test client!", mockLambdaContext.Object);
-
-        Console.WriteLine(result);
+        await TestService.RunAsync();
     }
 }

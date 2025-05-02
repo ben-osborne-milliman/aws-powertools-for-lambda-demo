@@ -1,13 +1,13 @@
 create table ecommerce.products (
-    id serial primary key,
-    name text not null,
-    description text,
-    price numeric(10, 2) not null,
-    created_at timestamp default now(),
-    updated_at timestamp default now()
+    Id serial primary key,
+    Name text not null,
+    Description text,
+    Price numeric(10, 2) not null,
+    InsertedOn timestamp default now(),
+    ModifiedOn timestamp default now()
 );
 
-insert into ecommerce.products (name, description, price, created_at, updated_at)
+insert into ecommerce.products (Name, Description, Price, InsertedOn, ModifiedOn)
 values
     ('Smartphone X1', 'A high-end smartphone with 128GB storage and 5G support.', 799.99, now(), now()),
     ('Smartphone X2', 'A mid-range smartphone with 64GB storage and 4G support.', 499.99, now(), now()),

@@ -2,6 +2,8 @@ using Amazon.Lambda.Core;
 using AWS.Lambda.Powertools.Logging;
 using AWS.Lambda.Powertools.Metrics;
 using AWS.Lambda.Powertools.Tracing;
+using Microsoft.Extensions.DependencyInjection;
+using PwrTlzDemo.Services;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -25,8 +27,14 @@ public class Function
     /// <returns></returns>
     [Logging(LogEvent = true)]
     [Tracing]
-    public string FunctionHandler(string input, ILambdaContext context)
+    public async Task<string> FunctionHandler(string input, ILambdaContext context)
     {
+        var ordersService = ServiceProviderBuilder
+            .Build()
+            .GetRequiredService<ProductsService>();
+
+        await ordersService.ExecuteAsync();
+
         var upperCaseString = UpperCaseString(input);
 
         Logger.LogInformation($"Uppercase of '{input}' is {upperCaseString}");
