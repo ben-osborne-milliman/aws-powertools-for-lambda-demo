@@ -22,8 +22,12 @@ internal class EcommerceDataProvider
     public async Task<IEnumerable<Product>> GetProductsAsync()
     {
         await using var connection = await GetConnectionAsync();
-        return await connection.QueryAsync<Product>("SELECT * FROM ecommerce.products;");
+        return await GetProductsFromDbAsync(connection);
     }
+
+    [Tracing]
+    private async Task<IEnumerable<Product>> GetProductsFromDbAsync(NpgsqlConnection connection) =>
+        await connection.QueryAsync<Product>("SELECT * FROM ecommerce.products;");
 
     [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
     private async Task<NpgsqlConnection> GetConnectionAsync()
