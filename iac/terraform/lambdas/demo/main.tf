@@ -24,7 +24,7 @@ module "lambda" {
   runtime               = "dotnet8"
   description           = "PowerTools Demo Function"
   memory_size           = 128
-  timeout               = 30
+  timeout               = 60
   build_output_path     = "../../../../src/lambdas/PwrTlzDemo/PwrTlzDemo/bin/Release/net8.0"
   security_group_ids    = [data.aws_security_group.default_security_groups.id]
   subnet_ids            = data.aws_subnets.private_subnets.ids
@@ -33,10 +33,6 @@ module "lambda" {
   application_log_level = "INFO"
   event_log_level       = "INFO"
   environment_variables = [
-    {
-      name  = "POWERTOOLS_SERVICE_NAME"
-      value = local.role
-    },
     {
       name  = "POWERTOOLS_TRACER_CAPTURE_RESPONSE",
       value = "false"
