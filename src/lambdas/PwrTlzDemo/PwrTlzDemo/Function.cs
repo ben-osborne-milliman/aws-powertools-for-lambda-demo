@@ -14,23 +14,22 @@ namespace PwrTlzDemo;
 
 public class Function
 {
-    private ServiceProvider? _serviceProvider = null;
+    private readonly ServiceProvider _serviceProvider;
+
+    public Function()
+    {
+        Tracing.RegisterForAllServices();
+        _serviceProvider = BuildServiceProvider();
+    }
 
     [Metrics(CaptureColdStart = true, Namespace = "PwrTlzDemo")]
     [Tracing]
     public async Task<InventoryResponse> FunctionHandler(ILambdaContext context)
     {
-        Tracing.RegisterForAllServices();
-
-        var handler = GetServiceProvider()
+        var handler = _serviceProvider
             .GetRequiredService<HandlerService>();
-
         return await handler.ExecuteAsync();
     }
-
-    [Tracing]
-    private ServiceProvider GetServiceProvider() =>
-        _serviceProvider ??= BuildServiceProvider();
 
     [Tracing]
     private ServiceProvider BuildServiceProvider() =>
