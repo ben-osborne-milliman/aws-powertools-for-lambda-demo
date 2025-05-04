@@ -1,9 +1,8 @@
+using System.Text.Json;
+using AWS.Lambda.Powertools.Parameters;
 using AWS.Lambda.Powertools.Tracing;
 using Dapper;
 using dotenv.net.Utilities;
-using IntelliScript.RdsPgConnector.Abstractions;
-using IntelliScript.RdsPgConnector.Messaging;
-using IntelliScript.RdsPgConnector.Models;
 using Npgsql;
 using PwrTlzDemo.Models;
 
@@ -11,11 +10,8 @@ namespace PwrTlzDemo.Providers;
 
 internal class EcommerceDataProvider
 {
-    private readonly IConnectionFactory _connectionFactory;
-
-    public EcommerceDataProvider(IConnectionFactory connectionFactory)
+    public EcommerceDataProvider()
     {
-        _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
     }
 
     [Tracing]
@@ -32,22 +28,34 @@ internal class EcommerceDataProvider
     [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
     private async Task<NpgsqlConnection> GetConnectionAsync()
     {
-        var connectionResponse = await _connectionFactory
-            .GetConnectionAsync(new ConnectionRequest
-            {
-                Host = EnvReader.GetStringValue("DB_HOST"),
-                Port = EnvReader.GetIntValue("DB_PORT"),
-                Database = EnvReader.GetStringValue("DB_NAME"),
-                Username = EnvReader.GetStringValue("DB_USER"),
-                Password = EnvReader.TryGetStringValue("DB_PASSWORD", out var dbPassword) ? dbPassword : string.Empty,
-                RequireSsl = EnvReader.GetBooleanValue("DB_REQUIRE_SSL"),
-                UseIamAuth = EnvReader.GetBooleanValue("USE_IAM_AUTH"),
-                Pooling = true
-            }, CancellationToken.None);
+        var credentials = await GetDbCredentialsAsync();
 
-        if(!connectionResponse.Success)
-            throw new AggregateException(string.Join(Environment.NewLine, connectionResponse.Errors));
-
-        return connectionResponse.Connection!;
+        var connectionString = new NpgsqlConnectionStringBuilder
+        {
+            Host = EnvReader.GetStringValue("DB_HOST"),
+            Port = EnvReader.GetIntValue("DB_PORT"),
+            Database = EnvReader.GetStringValue("DB_NAME"),
+            Username = credentials!.Username,
+            Password = credentials.Password,
+            SslMode = EnvReader.GetBooleanValue("DB_REQUIRE_SSL") ? SslMode.Require : SslMode.Allow,
+            Pooling = true
+        };
+        return new NpgsqlConnection(connectionString.ConnectionString);
     }
+
+    [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
+    private async Task<DbCredentials?> GetDbCredentialsAsync()
+    {
+        var credentialsJson = await ParametersManager
+            .SecretsProvider
+            .GetAsync(EnvReader.GetStringValue("DB_CREDENTIALS_SECRET_NAME"));
+        return JsonSerializer.Deserialize<DbCredentials>(credentialsJson!, GetJsonOptions());
+    }
+
+    [Tracing]
+    private static JsonSerializerOptions GetJsonOptions() =>
+        new()
+        {
+            PropertyNameCaseInsensitive = true,
+        };
 }

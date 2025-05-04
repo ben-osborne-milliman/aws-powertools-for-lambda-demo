@@ -25,27 +25,18 @@ data "aws_security_group" "default_security_groups" {
   }
 }
 
-data "aws_rds_cluster" "db_cluster" {
-  cluster_identifier = "int-demo-${local.environment}-cluster"
+data "aws_secretsmanager_secret" "demo_secret" {
+  name = "int-demo-dev-secret"
 }
 
-data "aws_iam_policy_document" "rds_auth_token_policy" {
+data "aws_iam_policy_document" "secretsmanager_policy" {
   statement {
     actions = [
-      "rds-db:connect"
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret"
     ]
     resources = [
-      "arn:aws:rds-db:*:*:dbuser:${data.aws_rds_cluster.db_cluster.cluster_resource_id}/lambda_user"
+      data.aws_secretsmanager_secret.demo_secret.arn
     ]
-  }
-}
-
-data "aws_iam_policy_document" "route53_policy" {
-  statement {
-    actions = [
-      "route53:ListHostedZones",
-      "route53:ListResourceRecordSets"
-    ]
-    resources = ["*"]
   }
 }

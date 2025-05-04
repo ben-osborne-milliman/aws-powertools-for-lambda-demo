@@ -1,9 +1,5 @@
-using Amazon;
-using Amazon.Runtime;
-using Amazon.Runtime.CredentialManagement;
 using Amazon.XRay.Recorder.Handlers.System.Net;
 using AWS.Lambda.Powertools.Tracing;
-using IntelliScript.RdsPgConnector.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PwrTlzDemo.Providers;
@@ -26,27 +22,8 @@ internal static class ServiceProviderBuilder
             .AddSingleton<ProductsService>()
             .AddSingleton<LibraryService>()
             .AddSingleton<HandlerService>()
-            .ConfigureRdsPgConnector(
-                () => GetAwsCredentials(),
-                () => RegionEndpoint.GetBySystemName(Environment.GetEnvironmentVariable("AWS_REGION")))
             .BuildServiceProvider();
         return serviceCollection;
     }
-
-    private static readonly Func<AWSCredentials> GetAwsCredentials = () =>
-    {
-        var profileName = Environment.GetEnvironmentVariable("AWS_PROFILE");
-
-        if (string.IsNullOrEmpty(profileName))
-            return FallbackCredentialsFactory.GetCredentials();
-
-        var profileCredentials =
-            new CredentialProfileStoreChain().TryGetAWSCredentials(profileName, out var profileCredential);
-
-        if (profileCredentials)
-            return profileCredential;
-
-        throw new InvalidOperationException("Unable to get AWS credentials");
-    };
 }
 

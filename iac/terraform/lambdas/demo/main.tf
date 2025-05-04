@@ -38,33 +38,29 @@ module "lambda" {
       value = local.role
     },
     {
-      name = "POWERTOOLS_TRACER_CAPTURE_RESPONSE",
+      name  = "POWERTOOLS_TRACER_CAPTURE_RESPONSE",
       value = "false"
     },
     {
-      name = "DB_HOST",
+      name  = "DB_CREDENTIALS_SECRET_NAME",
+      value = "int-demo-dev-secret"
+    },
+    {
+      name  = "DB_HOST",
       value = "int-demo-dev-db.dev-equifax.acs.millimanintelliscript.com"
     },
     {
-      name = "DB_PORT",
+      name  = "DB_PORT",
       value = "5432"
     },
     {
-      name = "DB_NAME",
+      name  = "DB_NAME",
       value = "demo"
     },
     {
-      name = "DB_USER",
-      value = "lambda_user"
-    },
-    {
-      name = "DB_REQUIRE_SSL",
-      value = "true"
-    },
-    {
-      name = "USE_IAM_AUTH",
+      name  = "DB_REQUIRE_SSL",
       value = "true"
     }
   ]
-  depends_on = [ null_resource.build ]
+  depends_on = [null_resource.build]
 }

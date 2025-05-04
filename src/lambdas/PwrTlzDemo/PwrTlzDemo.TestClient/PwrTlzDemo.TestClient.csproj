@@ -21,21 +21,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove=".env.local" />
-      <Content Include=".env.local">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Update=".env.dev">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <None Remove=".env.dev" />
-      <Content Include=".env.dev">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+      <ProjectReference Include="..\PwrTlzDemo\PwrTlzDemo.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PwrTlzDemo\PwrTlzDemo.csproj" />
+      <None Remove=".env" />
+      <Content Include=".env">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

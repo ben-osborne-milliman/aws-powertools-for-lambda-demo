@@ -7,10 +7,7 @@ internal static class Program
 {
     public static async Task Main(string[] args)
     {
-        DotEnv.Load(new DotEnvOptions(envFilePaths: [
-            "./.env.dev"
-            //"./.env.local"
-        ]));
+        DotEnv.Load();
 
         await TestService.VerifySessionAsync();
 

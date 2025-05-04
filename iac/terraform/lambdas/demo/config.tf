@@ -18,5 +18,4 @@ terraform {
     bucket       = "mi-tfstate-int-equifax-dev"
     key          = "demo7/lambdas/pwrtlz-demo"
   }
-
 }
