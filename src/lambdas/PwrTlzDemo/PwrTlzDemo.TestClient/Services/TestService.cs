@@ -29,7 +29,7 @@ public static class TestService
 
         var function = new Function();
 
-        var testRequest = new Faker<RegistrationRequest>()
+        var request = new Faker<RegistrationRequest>()
             .RuleFor(x => x.Email, f => f.Internet.Email())
             .RuleFor(x => x.FirstName, f => f.Name.FirstName())
             .RuleFor(x => x.LastName, f => f.Name.LastName())
@@ -41,11 +41,20 @@ public static class TestService
             .RuleFor(x => x.RegistrationDate, f => f.Date.Past(1))
             .Generate();
 
-        var result = await function.FunctionHandler(testRequest, mockLambdaContext.Object);
-        var json  = new JsonText(JsonSerializer.Serialize(result, JsonOptions));
+        var requestJson  = new JsonText(JsonSerializer.Serialize(request, JsonOptions));
 
         AnsiConsole.Write(
-            new Panel(json)
+            new Panel(requestJson)
+                .Header("Result")
+                .Collapse()
+                .RoundedBorder()
+                .BorderColor(Color.Blue));
+
+        var result = await function.FunctionHandler(request, mockLambdaContext.Object);
+        var resultJson  = new JsonText(JsonSerializer.Serialize(result, JsonOptions));
+
+        AnsiConsole.Write(
+            new Panel(resultJson)
                 .Header("Result")
                 .Collapse()
                 .RoundedBorder()
