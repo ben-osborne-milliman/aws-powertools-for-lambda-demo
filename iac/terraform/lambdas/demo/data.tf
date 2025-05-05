@@ -40,3 +40,20 @@ data "aws_iam_policy_document" "secretsmanager_policy" {
     ]
   }
 }
+
+data "aws_iam_policy_document" "dynamodb_policy" {
+  statement {
+    actions = [
+      "dynamodb:PutItem",
+      "dynamodb:GetItem",
+      "dynamodb:UpdateItem",
+      "dynamodb:DeleteItem",
+      "dynamodb:Scan",
+      "dynamodb:Query"
+    ]
+    resources = [
+      aws_dynamodb_table.idempotency_table.arn,
+      "${aws_dynamodb_table.idempotency_table.arn}/*"
+    ]
+  }
+}

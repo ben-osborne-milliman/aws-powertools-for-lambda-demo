@@ -8,7 +8,7 @@ module "base_tags" {
   environment      = local.environment
   line_of_business = local.line_of_business
   lifespan         = "temporary"
-  owner_email      = "test.user@milliman.com"
+  owner_email      = "ben.osborne@milliman.com"
   map_migrated     = "exclude"
 }
 
@@ -33,6 +33,10 @@ module "lambda" {
   application_log_level = "INFO"
   event_log_level       = "INFO"
   environment_variables = [
+    {
+      name = "IDEMPOTENCY_TABLE",
+      value = aws_dynamodb_table.idempotency_table.name
+    },
     {
       name  = "POWERTOOLS_TRACER_CAPTURE_RESPONSE",
       value = "false"
