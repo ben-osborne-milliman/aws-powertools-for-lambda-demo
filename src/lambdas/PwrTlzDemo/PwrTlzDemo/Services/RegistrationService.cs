@@ -11,7 +11,7 @@ internal class RegistrationService
             ecommerceDataProvider ?? throw new ArgumentNullException(nameof(ecommerceDataProvider));
     }
 
-    [Tracing]
+    [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
     [Logging(Service = "RegistrationService")]
     public async Task<Registration> RegisterAsync(RegistrationRequest request, Doc book)
     {

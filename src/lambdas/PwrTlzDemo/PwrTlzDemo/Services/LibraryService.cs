@@ -13,7 +13,7 @@ internal class LibraryService
         _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
     }
 
-    [Tracing]
+    [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
     [Logging(Service = "LibraryService")]
     public async Task<LibrarySearchResponse> GetBooksAsync()
     {
@@ -35,6 +35,9 @@ internal class LibraryService
         var responseContent = await response.Content.ReadAsStringAsync();
 
         var result = JsonSerializer.Deserialize<LibrarySearchResponse>(responseContent, GetJsonOptions());
+
+        Tracing.AddMetadata("library-response", result);
+
         return result!;
     }
 
