@@ -8,30 +8,10 @@ databaseChangeLog:
             splitStatements: false
             relativeToChangelogFile: true
   - changeSet:
-      id: create-lambda-user
+      id: create-registrations-table
       author: ben.osborne@milliman.com
       changes:
         - sqlFile:
-            path: roles/lambda_user--0001.sql
-            splitStatements: false
-            relativeToChangelogFile: true
-        - sqlFile:
-            path: roles/lambda_user--0002.sql
-            splitStatements: false
-            relativeToChangelogFile: true
-  - changeSet:
-      id: create-products-table
-      author: ben.osborne@milliman.com
-      changes:
-        - sqlFile:
-            path: tables/ecommerce/products--0001.sql
-            splitStatements: false
-            relativeToChangelogFile: true
-  - changeSet:
-      id: grandt-lambda-user-permissions
-      author: ben.osborne@milliman.com
-      changes:
-        - sqlFile:
-            path: roles/lambda_user--0003.sql
+            path: tables/ecommerce/registrations--0001.sql
             splitStatements: false
             relativeToChangelogFile: true

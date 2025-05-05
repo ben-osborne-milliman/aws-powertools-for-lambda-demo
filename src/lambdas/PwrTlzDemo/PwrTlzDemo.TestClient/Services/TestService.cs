@@ -1,19 +1,20 @@
+using System.Text.Json;
 using Amazon.Lambda.Core;
 using Amazon.Runtime.CredentialManagement;
 using AutoFixture;
 using AutoFixture.AutoMoq;
 using dotenv.net.Utilities;
 using Moq;
+using PwrTlzDemo.Messaging;
 using Spectre.Console;
+using Spectre.Console.Json;
 
 namespace PwrTlzDemo.TestClient.Services;
 
 public static class TestService
 {
-    public static async Task RunAsync()
-    {
+    public static async Task RunAsync() =>
         await InvokeLambdaFunctionAsync();
-    }
 
     private static async Task InvokeLambdaFunctionAsync()
     {
@@ -27,13 +28,16 @@ public static class TestService
 
         var function = new Function();
 
-        var results = await function.FunctionHandler(mockLambdaContext.Object);
+        var request = autoFixture.Create<RegistrationRequest>();
+        var result = await function.FunctionHandler(request, mockLambdaContext.Object);
+        var json  = new JsonText(JsonSerializer.Serialize(result, JsonOptions));
 
-        foreach(var item in results.Products)
-            AnsiConsole.WriteLine(item.ToString());
-
-        foreach(var item in results.Books)
-            AnsiConsole.WriteLine(item.ToString());
+        AnsiConsole.Write(
+            new Panel(json)
+                .Header("Result")
+                .Collapse()
+                .RoundedBorder()
+                .BorderColor(Color.Yellow));
     }
 
     public static async Task VerifySessionAsync()
@@ -61,4 +65,10 @@ public static class TestService
 
         AnsiConsole.MarkupLine("[green]Session verified.[/]");
     }
+
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        WriteIndented = true,
+        PropertyNameCaseInsensitive = true
+    };
 }

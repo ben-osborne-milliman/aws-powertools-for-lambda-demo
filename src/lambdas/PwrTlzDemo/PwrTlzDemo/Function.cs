@@ -24,11 +24,11 @@ public class Function
 
     [Metrics(CaptureColdStart = true, Namespace = "PwrTlzDemo")]
     [Tracing]
-    public async Task<InventoryResponse> FunctionHandler(ILambdaContext context)
+    public async Task<RegistrationResponse> FunctionHandler(RegistrationRequest request, ILambdaContext context)
     {
         var handler = _serviceProvider
             .GetRequiredService<HandlerService>();
-        return await handler.ExecuteAsync();
+        return await handler.ExecuteAsync(request);
     }
 
     [Tracing]
@@ -41,7 +41,7 @@ public class Function
                 configure.AddHttpMessageHandler<HttpClientXRayTracingHandler>();
             })
             .AddSingleton<EcommerceDataProvider>()
-            .AddSingleton<ProductsService>()
+            .AddSingleton<RegistrationService>()
             .AddSingleton<LibraryService>()
             .AddSingleton<HandlerService>()
             .BuildServiceProvider();

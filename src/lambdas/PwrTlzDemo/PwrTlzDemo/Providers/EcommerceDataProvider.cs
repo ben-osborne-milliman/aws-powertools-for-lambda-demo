@@ -15,15 +15,38 @@ internal class EcommerceDataProvider
     }
 
     [Tracing]
-    public async Task<IEnumerable<Product>> GetProductsAsync()
+    public async Task InsertRegistrationAsync(Registration registration)
     {
         await using var connection = await GetConnectionAsync();
-        return await GetProductsFromDbAsync(connection);
+        await InsertRegistrationAsync(connection, registration);
     }
 
     [Tracing]
-    private async Task<IEnumerable<Product>> GetProductsFromDbAsync(NpgsqlConnection connection) =>
-        await connection.QueryAsync<Product>("SELECT * FROM ecommerce.products;");
+    private async Task InsertRegistrationAsync(
+        NpgsqlConnection connection,
+        Registration registration
+        )
+    {
+        await connection.ExecuteAsync(
+            """
+            INSERT INTO ecommerce.registrations (Email, FirstName, LastName, AddressLine1, AddressLine2, City, State, Zip, RegistrationDate, BookTitle)
+            VALUES (@Email, @FirstName, @LastName, @AddressLine1, @AddressLine2, @City, @State, @Zip, @RegistrationDate, @BookTitle);
+            """,
+            new
+            {
+                registration.Email,
+                registration.FirstName,
+                registration.LastName,
+                registration.AddressLine1,
+                registration.AddressLine2,
+                registration.City,
+                registration.State,
+                registration.Zip,
+                registration.RegistrationDate,
+                registration.BookTitle
+            });
+    }
+
 
     [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
     private async Task<NpgsqlConnection> GetConnectionAsync()
