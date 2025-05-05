@@ -45,7 +45,7 @@ public static class TestService
 
         AnsiConsole.Write(
             new Panel(requestJson)
-                .Header("Result")
+                .Header("Request")
                 .Collapse()
                 .RoundedBorder()
                 .BorderColor(Color.Blue));
@@ -55,10 +55,10 @@ public static class TestService
 
         AnsiConsole.Write(
             new Panel(resultJson)
-                .Header("Result")
+                .Header("Response")
                 .Collapse()
                 .RoundedBorder()
-                .BorderColor(Color.Yellow));
+                .BorderColor(Color.Green));
     }
 
     public static async Task VerifySessionAsync()

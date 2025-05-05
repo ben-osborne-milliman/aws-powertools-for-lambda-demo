@@ -38,6 +38,10 @@ module "lambda" {
       value = "false"
     },
     {
+      name = "POWERTOOLS_LOGGER_LOG_LEVEL",
+      value = "INFO"
+    },
+    {
       name  = "DB_CREDENTIALS_SECRET_NAME",
       value = "int-demo-dev-secret"
     },

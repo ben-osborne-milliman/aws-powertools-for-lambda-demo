@@ -1,8 +1,3 @@
-using AWS.Lambda.Powertools.Tracing;
-using Microsoft.Extensions.Logging;
-using PwrTlzDemo.Messaging;
-using PwrTlzDemo.Models;
-using PwrTlzDemo.Providers;
 
 namespace PwrTlzDemo.Services;
 
@@ -17,6 +12,7 @@ internal class RegistrationService
     }
 
     [Tracing]
+    [Logging(Service = "RegistrationService")]
     public async Task<Registration> RegisterAsync(RegistrationRequest request, Doc book)
     {
         var registration = new Registration
@@ -32,6 +28,8 @@ internal class RegistrationService
             RegistrationDate = DateTimeOffset.UtcNow,
             BookTitle = book.Title!
         };
+
+        Logger.LogInformation($"Registering book: {book.Title}");
 
         await _ecommerceDataProvider.InsertRegistrationAsync(registration);
         return registration;

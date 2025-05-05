@@ -1,5 +1,3 @@
-using PwrTlzDemo.Models;
-
 namespace PwrTlzDemo.Messaging;
 
 public record RegistrationResponse

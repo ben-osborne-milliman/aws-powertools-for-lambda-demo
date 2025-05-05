@@ -1,7 +1,5 @@
-using AWS.Lambda.Powertools.Tracing;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using PwrTlzDemo.Messaging;
 
 namespace PwrTlzDemo.Services;
 
@@ -15,10 +13,13 @@ internal class LibraryService
     }
 
     [Tracing]
+    [Logging(Service = "LibraryService")]
     public async Task<LibrarySearchResponse> GetBooksAsync()
     {
         var random = new Random();
         var randomQuery = $"{(char)random.Next('a', 'z' + 1)}{(char)random.Next('a', 'z' + 1)}";
+
+        Logger.LogInformation($"GetBooks request: {randomQuery}");
 
         using var httpClient  = _clientFactory.CreateClient();
         using var request = new HttpRequestMessage(HttpMethod.Get, $"http://openlibrary.org/search.json?q={randomQuery}&limit=5");

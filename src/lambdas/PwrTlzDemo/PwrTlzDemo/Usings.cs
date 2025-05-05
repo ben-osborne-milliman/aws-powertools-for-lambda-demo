@@ -1,0 +1,11 @@
+global using Amazon.Lambda.Core;
+global using Amazon.XRay.Recorder.Handlers.System.Net;
+global using AWS.Lambda.Powertools.Logging;
+global using AWS.Lambda.Powertools.Metrics;
+global using AWS.Lambda.Powertools.Tracing;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using PwrTlzDemo.Messaging;
+global using PwrTlzDemo.Models;
+global using PwrTlzDemo.Providers;
+global using PwrTlzDemo.Services;

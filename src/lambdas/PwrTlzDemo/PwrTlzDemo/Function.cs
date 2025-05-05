@@ -1,13 +1,3 @@
-using Amazon.Lambda.Core;
-using Amazon.XRay.Recorder.Handlers.System.Net;
-using AWS.Lambda.Powertools.Metrics;
-using AWS.Lambda.Powertools.Tracing;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using PwrTlzDemo.Messaging;
-using PwrTlzDemo.Providers;
-using PwrTlzDemo.Services;
-
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
 namespace PwrTlzDemo;
@@ -26,6 +16,8 @@ public class Function
     [Tracing]
     public async Task<RegistrationResponse> FunctionHandler(RegistrationRequest request, ILambdaContext context)
     {
+        Logger.LogInformation("FunctionHandler invoked");
+
         var handler = _serviceProvider
             .GetRequiredService<HandlerService>();
         return await handler.ExecuteAsync(request);

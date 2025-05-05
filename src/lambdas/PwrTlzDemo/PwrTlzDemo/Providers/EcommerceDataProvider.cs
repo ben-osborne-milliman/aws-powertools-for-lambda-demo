@@ -1,10 +1,8 @@
 using System.Text.Json;
 using AWS.Lambda.Powertools.Parameters;
-using AWS.Lambda.Powertools.Tracing;
 using Dapper;
 using dotenv.net.Utilities;
 using Npgsql;
-using PwrTlzDemo.Models;
 
 namespace PwrTlzDemo.Providers;
 
@@ -22,11 +20,14 @@ internal class EcommerceDataProvider
     }
 
     [Tracing]
+    [Logging(Service = "EcommerceDataProvider")]
     private async Task InsertRegistrationAsync(
         NpgsqlConnection connection,
         Registration registration
         )
     {
+        Logger.LogInformation("Inserting registration");
+
         await connection.ExecuteAsync(
             """
             INSERT INTO ecommerce.registrations (Email, FirstName, LastName, AddressLine1, AddressLine2, City, State, Zip, RegistrationDate, BookTitle)
@@ -48,8 +49,11 @@ internal class EcommerceDataProvider
     }
 
     [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
+    [Logging(Service = "EcommerceDataProvider")]
     private async Task<NpgsqlConnection> GetConnectionAsync()
     {
+        Logger.LogInformation("Getting connection");
+
         var credentials = await GetDbCredentialsAsync();
 
         var connectionString = new NpgsqlConnectionStringBuilder
@@ -66,8 +70,11 @@ internal class EcommerceDataProvider
     }
 
     [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
+    [Logging(Service = "EcommerceDataProvider")]
     private async Task<DbCredentials?> GetDbCredentialsAsync()
     {
+        Logger.LogInformation("Getting db credentials from secrets manager");
+
         var credentialsJson = await ParametersManager
             .SecretsProvider
             .GetAsync(EnvReader.GetStringValue("DB_CREDENTIALS_SECRET_NAME"));

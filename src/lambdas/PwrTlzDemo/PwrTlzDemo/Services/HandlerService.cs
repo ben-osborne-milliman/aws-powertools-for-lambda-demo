@@ -1,6 +1,3 @@
-using AWS.Lambda.Powertools.Tracing;
-using PwrTlzDemo.Messaging;
-
 namespace PwrTlzDemo.Services;
 
 internal class HandlerService
@@ -16,8 +13,11 @@ internal class HandlerService
     }
 
     [Tracing]
+    [Logging(Service = "HandlerService")]
     public async Task<RegistrationResponse> ExecuteAsync(RegistrationRequest request)
     {
+        Logger.LogInformation("Getting library search response");
+
         var librarySearchResponse = await _libraryService
             .GetBooksAsync();
 
@@ -25,7 +25,11 @@ internal class HandlerService
             .OrderBy(_ => Guid.NewGuid())
             .First();
 
+        Logger.LogInformation("Adding registration");
+
         var registration = await _registrationService.RegisterAsync(request, randomBook);
+
+        Logger.LogInformation("Registration completed");
 
         return new RegistrationResponse
         {
