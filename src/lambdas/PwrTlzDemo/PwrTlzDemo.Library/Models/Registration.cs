@@ -1,4 +1,4 @@
-namespace PwrTlzDemo.Models;
+namespace PwrTlzDemo.Library.Models;
 
 public record Registration
 {

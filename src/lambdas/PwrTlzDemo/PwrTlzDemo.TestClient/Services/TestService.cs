@@ -6,7 +6,7 @@ using AutoFixture.AutoMoq;
 using Bogus;
 using dotenv.net.Utilities;
 using Moq;
-using PwrTlzDemo.Messaging;
+using PwrTlzDemo.Library.Messaging;
 using Spectre.Console;
 using Spectre.Console.Json;
 

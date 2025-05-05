@@ -1,4 +1,6 @@
-namespace PwrTlzDemo.Messaging;
+using PwrTlzDemo.Library.Models;
+
+namespace PwrTlzDemo.Library.Messaging;
 
 public record RegistrationResponse
 {

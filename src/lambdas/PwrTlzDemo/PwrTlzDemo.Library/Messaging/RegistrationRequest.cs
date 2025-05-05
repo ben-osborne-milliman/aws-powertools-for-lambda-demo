@@ -1,4 +1,4 @@
-namespace PwrTlzDemo.Messaging;
+namespace PwrTlzDemo.Library.Messaging;
 
 public record RegistrationRequest
 {

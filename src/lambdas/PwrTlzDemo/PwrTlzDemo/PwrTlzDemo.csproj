@@ -28,5 +28,8 @@
     <ItemGroup>
         <InternalsVisibleTo Include="PwrTlzDemo.TestClient" />
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\PwrTlzDemo.Library\PwrTlzDemo.Library.csproj" />
     </ItemGroup> 
 </Project>

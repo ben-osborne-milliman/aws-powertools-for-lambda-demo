@@ -1,6 +1,6 @@
-namespace PwrTlzDemo.Models;
+namespace PwrTlzDemo.Library.Models;
 
-internal record DbCredentials
+public record DbCredentials
 {
     public required string Username { get; init; }
 

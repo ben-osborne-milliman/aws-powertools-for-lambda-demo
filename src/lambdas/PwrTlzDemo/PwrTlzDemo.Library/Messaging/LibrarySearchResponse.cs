@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace PwrTlzDemo.Messaging;
+namespace PwrTlzDemo.Library.Messaging;
 
-internal record LibrarySearchResponse
+public record LibrarySearchResponse
 {
     public int? NumFound { get; init; }
 
