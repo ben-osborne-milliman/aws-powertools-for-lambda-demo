@@ -23,7 +23,7 @@ docker run -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=demo -p 5432:5432 -d pos
 ```bash
 liquibase --url="jdbc:postgresql://int-demo-dev-db.dev-equifax.acs.millimanintelliscript.com:5432/demo" \
           --username="master" \
-          --password="_dxME+LpE?+x:D}W" \
+          --password="9)?Q*K0vt5ZWOTfm" \
           status
 ```
 
@@ -32,7 +32,7 @@ liquibase --url="jdbc:postgresql://int-demo-dev-db.dev-equifax.acs.millimanintel
 ```bash
 liquibase --url="jdbc:postgresql://int-demo-dev-db.dev-equifax.acs.millimanintelliscript.com:5432/demo" \
           --username="master" \
-          --password="_dxME+LpE?+x:D}W" \
+          --password="9)?Q*K0vt5ZWOTfm" \
           update
 ```
 

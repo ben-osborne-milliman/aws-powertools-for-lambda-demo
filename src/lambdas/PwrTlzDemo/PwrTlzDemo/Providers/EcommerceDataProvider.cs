@@ -47,7 +47,6 @@ internal class EcommerceDataProvider
             });
     }
 
-
     [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
     private async Task<NpgsqlConnection> GetConnectionAsync()
     {

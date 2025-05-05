@@ -25,13 +25,13 @@ internal class HandlerService
             .OrderBy(_ => Guid.NewGuid())
             .First();
 
-        var registraiton = await _registrationService.RegisterAsync(request, randomBook);
+        var registration = await _registrationService.RegisterAsync(request, randomBook);
 
         return new RegistrationResponse
         {
             Success = true,
             Message = "Registration successful",
-            Registration = registraiton
+            Registration = registration
         };
     }
 }
