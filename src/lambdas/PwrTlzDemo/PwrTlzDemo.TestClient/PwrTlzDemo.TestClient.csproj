@@ -13,6 +13,7 @@
       <PackageReference Include="AWSSDK.S3" Version="3.7.416.9" />
       <PackageReference Include="AWSSDK.SSO" Version="3.7.400.133" />
       <PackageReference Include="AWSSDK.SSOOIDC" Version="3.7.401.11" />
+      <PackageReference Include="Bogus" Version="35.6.3" />
       <PackageReference Include="Spectre.Console" Version="0.50.0" />
       <PackageReference Include="Spectre.Console.Json" Version="0.50.0" />
       <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />

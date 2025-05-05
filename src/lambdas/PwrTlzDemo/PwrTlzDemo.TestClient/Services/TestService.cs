@@ -3,6 +3,7 @@ using Amazon.Lambda.Core;
 using Amazon.Runtime.CredentialManagement;
 using AutoFixture;
 using AutoFixture.AutoMoq;
+using Bogus;
 using dotenv.net.Utilities;
 using Moq;
 using PwrTlzDemo.Messaging;
@@ -28,8 +29,19 @@ public static class TestService
 
         var function = new Function();
 
-        var request = autoFixture.Create<RegistrationRequest>();
-        var result = await function.FunctionHandler(request, mockLambdaContext.Object);
+        var testRequest = new Faker<RegistrationRequest>()
+            .RuleFor(x => x.Email, f => f.Internet.Email())
+            .RuleFor(x => x.FirstName, f => f.Name.FirstName())
+            .RuleFor(x => x.LastName, f => f.Name.LastName())
+            .RuleFor(x => x.AddressLine1, f => f.Address.StreetAddress())
+            .RuleFor(x => x.AddressLine2, f => f.Address.SecondaryAddress())
+            .RuleFor(x => x.City, f => f.Address.City())
+            .RuleFor(x => x.State, f => f.Address.State())
+            .RuleFor(x => x.Zip, f => f. Address.ZipCode())
+            .RuleFor(x => x.RegistrationDate, f => f.Date.Past(1))
+            .Generate();
+
+        var result = await function.FunctionHandler(testRequest, mockLambdaContext.Object);
         var json  = new JsonText(JsonSerializer.Serialize(result, JsonOptions));
 
         AnsiConsole.Write(
