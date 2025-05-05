@@ -1,7 +1,5 @@
-
-
 using AWS.Lambda.Powertools.Idempotency;
-using dotenv.net.Utilities;
+
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
