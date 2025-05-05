@@ -1,5 +1,8 @@
 
 
+using AWS.Lambda.Powertools.Idempotency;
+using dotenv.net.Utilities;
+
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
 namespace PwrTlzDemo;
@@ -11,11 +14,16 @@ public class Function
     public Function()
     {
         Tracing.RegisterForAllServices();
+
+        Idempotency
+            .Configure(builder => builder.UseDynamoDb(EnvReader.GetStringValue("IDEMPOTENCY_TABLE")));
+
         _serviceProvider = BuildServiceProvider();
     }
 
     [Metrics(CaptureColdStart = true, Namespace = nameof(PwrTlzDemo))]
     [Tracing]
+    [Idempotent]
     public async Task<RegistrationResponse> FunctionHandler(RegistrationRequest request, ILambdaContext context)
     {
         Logger.LogInformation("FunctionHandler invoked");
@@ -28,7 +36,6 @@ public class Function
     [Tracing]
     private ServiceProvider BuildServiceProvider() =>
         new ServiceCollection()
-            .AddLogging(builder => builder.AddLambdaLogger())
             .AddScoped<HttpClientXRayTracingHandler>()
             .AddHttpClient().ConfigureHttpClientDefaults(configure =>
             {
