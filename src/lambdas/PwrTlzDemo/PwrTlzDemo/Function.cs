@@ -12,7 +12,7 @@ public class Function
         _serviceProvider = BuildServiceProvider();
     }
 
-    [Metrics(CaptureColdStart = true, Namespace = "PwrTlzDemo")]
+    [Metrics(CaptureColdStart = true, Namespace = nameof(PwrTlzDemo))]
     [Tracing]
     public async Task<RegistrationResponse> FunctionHandler(RegistrationRequest request, ILambdaContext context)
     {

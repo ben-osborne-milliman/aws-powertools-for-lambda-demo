@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -21,10 +22,15 @@ internal class LibraryService
 
         Logger.LogInformation($"GetBooks request: {randomQuery}");
 
+        var stopwatch = Stopwatch.StartNew();
+
         using var httpClient  = _clientFactory.CreateClient();
         using var request = new HttpRequestMessage(HttpMethod.Get, $"http://openlibrary.org/search.json?q={randomQuery}&limit=5");
         using var response = await httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
+
+        stopwatch.Stop();
+        Metrics.AddMetric("GetBooksDuration", stopwatch.ElapsedMilliseconds, MetricUnit.Milliseconds);
 
         var responseContent = await response.Content.ReadAsStringAsync();
 

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using AWS.Lambda.Powertools.Parameters;
 using Dapper;
@@ -26,7 +27,9 @@ internal class EcommerceDataProvider
         Registration registration
         )
     {
-        Logger.LogInformation("Inserting registration");
+        Logger.LogInformation("Adding registration");
+
+        var stopwatch = Stopwatch.StartNew();
 
         await connection.ExecuteAsync(
             """
@@ -46,6 +49,10 @@ internal class EcommerceDataProvider
                 registration.RegistrationDate,
                 registration.BookTitle
             });
+
+        stopwatch.Stop();
+
+        Metrics.AddMetric("InsertRegistrationDuration", stopwatch.ElapsedMilliseconds, MetricUnit.Milliseconds);
     }
 
     [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
