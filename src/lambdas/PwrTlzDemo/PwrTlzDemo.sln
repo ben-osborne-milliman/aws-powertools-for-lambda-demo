@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo.TestClient", "PwrTlzDemo.TestClient\PwrTlzDemo.TestClient.csproj", "{0900A123-34B7-4133-BA24-FB887252A64F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo", "PwrTlzDemo\PwrTlzDemo.csproj", "{77D5B8F5-536B-46C4-A7BF-88EA61631D0F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo.Library", "PwrTlzDemo.Library\PwrTlzDemo.Library.csproj", "{B359F6F9-ABA1-419A-A4DD-0F0B026CD12D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo.1.Prms", "PwrTlzDemo.1.Prms\PwrTlzDemo.1.Prms.csproj", "{4B8F43EB-1804-49F1-AE78-03781F377766}"
@@ -26,10 +24,6 @@ Global
 		{0900A123-34B7-4133-BA24-FB887252A64F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0900A123-34B7-4133-BA24-FB887252A64F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0900A123-34B7-4133-BA24-FB887252A64F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{77D5B8F5-536B-46C4-A7BF-88EA61631D0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77D5B8F5-536B-46C4-A7BF-88EA61631D0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77D5B8F5-536B-46C4-A7BF-88EA61631D0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77D5B8F5-536B-46C4-A7BF-88EA61631D0F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B359F6F9-ABA1-419A-A4DD-0F0B026CD12D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B359F6F9-ABA1-419A-A4DD-0F0B026CD12D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B359F6F9-ABA1-419A-A4DD-0F0B026CD12D}.Release|Any CPU.ActiveCfg = Release|Any CPU
