@@ -40,7 +40,6 @@ module "demo-2-log-lambda" {
   depends_on                 = [module.demo-1-prms-lambda]
 }
 
-
 module "demo-3-trc-lambda" {
   source                     = "./demo-3-trc"
   environment                = local.environment
@@ -49,7 +48,10 @@ module "demo-3-trc-lambda" {
   security_group_ids         = [data.aws_security_group.default_security_groups.id]
   subnet_ids                 = data.aws_subnets.private_subnets.ids
   secrets_manager_policy_arn = aws_iam_policy.secretsmanager_policy.arn
-  depends_on                 = [module.demo-2-log-lambda]
+  depends_on                 = [
+    module.demo-1-prms-lambda,
+    module.demo-2-log-lambda
+  ]
 }
 
 
