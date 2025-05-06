@@ -1,5 +1,6 @@
 using System.Text.Json;
 using AWS.Lambda.Powertools.Parameters;
+using AWS.Lambda.Powertools.Parameters.Transform;
 using Dapper;
 using Npgsql;
 
@@ -61,10 +62,20 @@ internal class EcommerceDataProvider
 
     private async Task<DbCredentials?> GetDbCredentialsAsync()
     {
-        var credentialsJson = await ParametersManager
+        var credentials = await ParametersManager
             .SecretsProvider
-            .GetAsync(EnvReader.GetStringValue("DB_CREDENTIALS_SECRET_NAME"));
-        return JsonSerializer.Deserialize<DbCredentials>(credentialsJson!, GetJsonOptions());
+            .WithTransformation(new JsonTransform())
+            .GetAsync<DbCredentials>(EnvReader.GetStringValue("DB_CREDENTIALS_SECRET_NAME"));
+        return credentials!;
+    }
+
+    private sealed class JsonTransform : ITransformer
+    {
+        public T Transform<T>(string value)
+        {
+            var options = GetJsonOptions();
+            return JsonSerializer.Deserialize<T>(value, options)!;
+        }
     }
 
     private static JsonSerializerOptions GetJsonOptions() =>
