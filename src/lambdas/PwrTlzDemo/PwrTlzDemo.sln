@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo.4.Met", "PwrTlzD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo.5.Idem", "PwrTlzDemo.5.Idem\PwrTlzDemo.5.Idem.csproj", "{701C8ECF-050C-46C6-B09D-C2C0DD2F2227}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo.6.Bat", "PwrTlzDemo.6.Bat\PwrTlzDemo.6.Bat.csproj", "{0DEFCD0A-0B70-4225-BDF7-FB65A5E70A06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{701C8ECF-050C-46C6-B09D-C2C0DD2F2227}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{701C8ECF-050C-46C6-B09D-C2C0DD2F2227}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{701C8ECF-050C-46C6-B09D-C2C0DD2F2227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DEFCD0A-0B70-4225-BDF7-FB65A5E70A06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DEFCD0A-0B70-4225-BDF7-FB65A5E70A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DEFCD0A-0B70-4225-BDF7-FB65A5E70A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DEFCD0A-0B70-4225-BDF7-FB65A5E70A06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
