@@ -1,8 +1,11 @@
 using System.Diagnostics;
 using System.Text.Json;
+using AWS.Lambda.Powertools.Logging;
 using AWS.Lambda.Powertools.Parameters;
 using Dapper;
+using dotenv.net.Utilities;
 using Npgsql;
+using PwrTlzDemo.Library.Models;
 
 namespace PwrTlzDemo.Providers;
 
@@ -28,8 +31,6 @@ internal class EcommerceDataProvider
     {
         Logger.LogInformation("Adding registration");
 
-        var stopwatch = Stopwatch.StartNew();
-
         await connection.ExecuteAsync(
             """
             INSERT INTO ecommerce.registrations (Email, FirstName, LastName, AddressLine1, AddressLine2, City, State, Zip, RegistrationDate, BookTitle)
@@ -48,10 +49,6 @@ internal class EcommerceDataProvider
                 registration.RegistrationDate,
                 registration.BookTitle
             });
-
-        stopwatch.Stop();
-
-        Metrics.AddMetric("InsertRegistrationDuration", stopwatch.ElapsedMilliseconds, MetricUnit.Milliseconds);
     }
 
     [Tracing(CaptureMode = TracingCaptureMode.Disabled)]

@@ -1,5 +1,9 @@
-﻿namespace PwrTlzDemo._3.Trc;
-
-public class Usings
-{
-}
+﻿global using Amazon.Lambda.Core;
+global using Amazon.XRay.Recorder.Handlers.System.Net;
+global using AWS.Lambda.Powertools.Logging;
+global using AWS.Lambda.Powertools.Tracing;
+global using dotenv.net.Utilities;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using PwrTlzDemo.Library.Messaging;
+global using PwrTlzDemo.Library.Models;

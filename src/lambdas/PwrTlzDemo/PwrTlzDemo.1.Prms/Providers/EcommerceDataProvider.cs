@@ -1,8 +1,9 @@
-using System.Diagnostics;
 using System.Text.Json;
 using AWS.Lambda.Powertools.Parameters;
 using Dapper;
+using dotenv.net.Utilities;
 using Npgsql;
+using PwrTlzDemo.Library.Models;
 
 namespace PwrTlzDemo.Providers;
 
@@ -12,24 +13,17 @@ internal class EcommerceDataProvider
     {
     }
 
-    [Tracing]
     public async Task InsertRegistrationAsync(Registration registration)
     {
         await using var connection = await GetConnectionAsync();
         await InsertRegistrationAsync(connection, registration);
     }
 
-    [Tracing]
-    [Logging(Service = "EcommerceDataProvider")]
     private async Task InsertRegistrationAsync(
         NpgsqlConnection connection,
         Registration registration
         )
     {
-        Logger.LogInformation("Adding registration");
-
-        var stopwatch = Stopwatch.StartNew();
-
         await connection.ExecuteAsync(
             """
             INSERT INTO ecommerce.registrations (Email, FirstName, LastName, AddressLine1, AddressLine2, City, State, Zip, RegistrationDate, BookTitle)
@@ -48,18 +42,10 @@ internal class EcommerceDataProvider
                 registration.RegistrationDate,
                 registration.BookTitle
             });
-
-        stopwatch.Stop();
-
-        Metrics.AddMetric("InsertRegistrationDuration", stopwatch.ElapsedMilliseconds, MetricUnit.Milliseconds);
     }
 
-    [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
-    [Logging(Service = "EcommerceDataProvider")]
     private async Task<NpgsqlConnection> GetConnectionAsync()
     {
-        Logger.LogInformation("Getting connection");
-
         var credentials = await GetDbCredentialsAsync();
 
         var connectionString = new NpgsqlConnectionStringBuilder
@@ -75,19 +61,14 @@ internal class EcommerceDataProvider
         return new NpgsqlConnection(connectionString.ConnectionString);
     }
 
-    [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
-    [Logging(Service = "EcommerceDataProvider")]
     private async Task<DbCredentials?> GetDbCredentialsAsync()
     {
-        Logger.LogInformation("Getting db credentials from secrets manager");
-
         var credentialsJson = await ParametersManager
             .SecretsProvider
             .GetAsync(EnvReader.GetStringValue("DB_CREDENTIALS_SECRET_NAME"));
         return JsonSerializer.Deserialize<DbCredentials>(credentialsJson!, GetJsonOptions());
     }
 
-    [Tracing]
     private static JsonSerializerOptions GetJsonOptions() =>
         new()
         {
