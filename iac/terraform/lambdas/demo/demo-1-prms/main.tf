@@ -47,7 +47,7 @@ module "lambda" {
   line_of_business      = var.line_of_business
   role                  = local.role
   architecture          = "arm64"
-  handler_function      = "PwrTlzDemo::PwrTlzDemo.Function::FunctionHandler"
+  handler_function      = "PwrTlzDemo.1.Prms::PwrTlzDemo.Function::FunctionHandler"
   runtime               = "dotnet8"
   description           = "PowerTools Demo Function"
   memory_size           = 128

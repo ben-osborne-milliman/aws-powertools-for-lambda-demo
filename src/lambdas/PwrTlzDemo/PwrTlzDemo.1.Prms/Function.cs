@@ -20,6 +20,7 @@ public class Function
 
     private ServiceProvider BuildServiceProvider() =>
         new ServiceCollection()
+            .AddHttpClient()
             .AddSingleton<EcommerceDataProvider>()
             .AddSingleton<RegistrationService>()
             .AddSingleton<LibraryService>()

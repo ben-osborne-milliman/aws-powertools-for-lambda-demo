@@ -4,7 +4,7 @@ internal class RegistrationService
 {
     private readonly EcommerceDataProvider _ecommerceDataProvider;
 
-    public RegistrationService(EcommerceDataProvider ecommerceDataProvider, ILogger<RegistrationService> logger)
+    public RegistrationService(EcommerceDataProvider ecommerceDataProvider)
     {
         _ecommerceDataProvider =
             ecommerceDataProvider ?? throw new ArgumentNullException(nameof(ecommerceDataProvider));
