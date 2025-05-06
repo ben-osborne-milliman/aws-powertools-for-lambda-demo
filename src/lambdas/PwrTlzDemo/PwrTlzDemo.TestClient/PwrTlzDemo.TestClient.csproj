@@ -22,14 +22,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PwrTlzDemo.2.Lgr\PwrTlzDemo.2.Lgr.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Remove=".env" />
       <Content Include=".env">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PwrTlzDemo.4.Met\PwrTlzDemo.4.Met.csproj" />
     </ItemGroup>
 
 </Project>

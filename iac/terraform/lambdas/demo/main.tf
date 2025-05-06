@@ -54,8 +54,20 @@ module "demo-3-trc-lambda" {
   ]
 }
 
-
-
+module "demo-4-met-lambda" {
+  source                     = "./demo-4-met"
+  environment                = local.environment
+  line_of_business           = local.line_of_business
+  application                = local.application
+  security_group_ids         = [data.aws_security_group.default_security_groups.id]
+  subnet_ids                 = data.aws_subnets.private_subnets.ids
+  secrets_manager_policy_arn = aws_iam_policy.secretsmanager_policy.arn
+  depends_on                 = [
+    module.demo-1-prms-lambda,
+    module.demo-2-log-lambda,
+    module.demo-3-trc-lambda
+  ]
+}
 
 /*
 module "lambda" {
