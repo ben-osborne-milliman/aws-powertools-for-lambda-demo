@@ -1,5 +1,5 @@
 ﻿namespace PwrTlzDemo._1.Prms;
 
-public class Class1
+public class Usings
 {
 }

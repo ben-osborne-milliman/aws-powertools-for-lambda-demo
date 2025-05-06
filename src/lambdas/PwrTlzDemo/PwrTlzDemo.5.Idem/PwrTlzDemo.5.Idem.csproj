@@ -33,4 +33,8 @@
     <ItemGroup>
         <ProjectReference Include="..\PwrTlzDemo.Library\PwrTlzDemo.Library.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Providers\" />
+      <Folder Include="Services\" />
+    </ItemGroup>
 </Project>
