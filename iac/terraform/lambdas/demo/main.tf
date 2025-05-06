@@ -1,4 +1,11 @@
-
+locals {
+  application      = "demo"
+  account          = "Development Equifax"
+  environment      = "dev"
+  line_of_business = "int"
+  role             = "pwrtlz-demo"
+  resource_prefix  = "${local.line_of_business}-${local.application}-${local.environment}"
+}
 
 module "base_tags" {
   source = "git::https://miazuredomke01.mi.local/IntelliScriptV2/terraform-modules/_git/base-tags?ref=v1"
@@ -12,6 +19,20 @@ module "base_tags" {
   map_migrated     = "exclude"
 }
 
+module "demo-1-prms-lambda" {
+  source                     = "./demo-1-prms"
+  environment                = local.environment
+  line_of_business           = local.line_of_business
+  application                = local.application
+  security_group_ids         = [data.aws_security_group.default_security_groups.id]
+  subnet_ids                 = data.aws_subnets.private_subnets.ids
+  secrets_manager_policy_arn = aws_iam_policy.secretsmanager_policy.arn
+}
+
+
+
+
+/*
 module "lambda" {
   source = "git::https://miazuredomke01.mi.local/IntelliScriptV2/terraform-modules/_git/lambda//net?ref=v6"
 
@@ -68,3 +89,4 @@ module "lambda" {
   ]
   depends_on = [null_resource.build]
 }
+*/
