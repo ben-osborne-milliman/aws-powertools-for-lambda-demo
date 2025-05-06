@@ -1,6 +1,6 @@
 
 resource "aws_dynamodb_table" "idempotency_table" {
-  name         = "${local.line_of_business}-${local.application}-${local.environment}-idempotency-table"
+  name         = "${local.resource_prefix}-idempotency-table"
   billing_mode = "PAY_PER_REQUEST"
 
   attribute {

@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Amazon.Lambda.Core;
 using Amazon.Runtime.CredentialManagement;
+using Amazon.SQS.Model;
 using AutoFixture;
 using AutoFixture.AutoMoq;
 using Bogus;
@@ -14,8 +15,25 @@ namespace PwrTlzDemo.TestClient.Services;
 
 public static class TestService
 {
-    public static async Task RunAsync() =>
-        await InvokeLambdaFunctionAsync();
+    public static async Task RunAsync()
+    {
+        var options = new Dictionary<string, Func<Task>>()
+        {
+            { "Invoke Lambda Function", InvokeLambdaFunctionAsync },
+            { "Add Messages to Queue", AddMessagesToQueueAsync }
+        };
+
+        var selectedKey = await AnsiConsole.PromptAsync(
+            new SelectionPrompt<string>()
+                .Title("What would you like to do?")
+                .AddChoices(options.Keys)
+            );
+
+        AnsiConsole.MarkupLine($"[green]You selected: {selectedKey}[/]");
+
+        var selectedOption = options[selectedKey];
+        await selectedOption();
+    }
 
     private static async Task InvokeLambdaFunctionAsync()
     {
@@ -29,19 +47,8 @@ public static class TestService
 
         var function = new Function();
 
-        var request = new Faker<RegistrationRequest>()
-            .RuleFor(x => x.Email, f => f.Internet.Email())
-            .RuleFor(x => x.FirstName, f => f.Name.FirstName())
-            .RuleFor(x => x.LastName, f => f.Name.LastName())
-            .RuleFor(x => x.AddressLine1, f => f.Address.StreetAddress())
-            .RuleFor(x => x.AddressLine2, f => f.Address.SecondaryAddress())
-            .RuleFor(x => x.City, f => f.Address.City())
-            .RuleFor(x => x.State, f => f.Address.State())
-            .RuleFor(x => x.Zip, f => f. Address.ZipCode())
-            .RuleFor(x => x.RegistrationDate, f => f.Date.Past(1))
-            .Generate();
-
-        var requestJson  = new JsonText(JsonSerializer.Serialize(request, JsonOptions));
+        var request = GenerateRandomRegistrationRequest();
+        var requestJson  = new JsonText(Serialize(request));
 
         AnsiConsole.Write(
             new Panel(requestJson)
@@ -59,6 +66,62 @@ public static class TestService
                 .Collapse()
                 .RoundedBorder()
                 .BorderColor(Color.Green));
+    }
+
+    private static async Task AddMessagesToQueueAsync()
+    {
+        var sqsClient = new Amazon.SQS.AmazonSQSClient();
+        var queueUrl = EnvReader.GetStringValue("SQS_QUEUE_URL");
+
+        var messageCount = await AnsiConsole.PromptAsync(
+            new TextPrompt<int>("How many messages would you like to add?")
+                .PromptStyle("green")
+                .DefaultValue(10)
+                .Validate(input => input is > 0 and < 100)
+        );
+
+        var msgGroupId = $"pwrtzldemo-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}";
+
+        for (var i = 0; i < messageCount; i++)
+        {
+            var msg = new SendMessageRequest
+            {
+                QueueUrl = queueUrl,
+                MessageBody = Serialize(GenerateRandomRegistrationRequest()),
+                MessageGroupId = msgGroupId,
+                MessageDeduplicationId = $"{msgGroupId}-{i}"
+            };
+            var response = await sqsClient.SendMessageAsync(msg);
+            if(response.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                AnsiConsole.WriteLine($"Message {i + 1} sent successfully. Message ID: {response.MessageId}");
+            else
+            {
+                AnsiConsole.MarkupLine($"[red]Failed to send message {i + 1}. Status code: {response.HttpStatusCode}[/]");
+                break;
+            }
+        }
+    }
+
+    private static RegistrationRequest GenerateRandomRegistrationRequest()
+    {
+        var request = new Faker<RegistrationRequest>()
+            .RuleFor(x => x.Email, f => f.Internet.Email())
+            .RuleFor(x => x.FirstName, f => f.Name.FirstName())
+            .RuleFor(x => x.LastName, f => f.Name.LastName())
+            .RuleFor(x => x.AddressLine1, f => f.Address.StreetAddress())
+            .RuleFor(x => x.AddressLine2, f => f.Address.SecondaryAddress())
+            .RuleFor(x => x.City, f => f.Address.City())
+            .RuleFor(x => x.State, f => f.Address.State())
+            .RuleFor(x => x.Zip, f => f. Address.ZipCode())
+            .RuleFor(x => x.RegistrationDate, f => f.Date.Past())
+            .Generate();
+        return request;
+    }
+
+    private static string Serialize<T>(T request)
+    {
+        var requestJson  = JsonSerializer.Serialize(request, JsonOptions);
+        return requestJson;
     }
 
     public static async Task VerifySessionAsync()
