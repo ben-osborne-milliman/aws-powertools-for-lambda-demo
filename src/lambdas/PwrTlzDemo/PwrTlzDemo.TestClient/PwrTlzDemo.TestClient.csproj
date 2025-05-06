@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PwrTlzDemo\PwrTlzDemo.csproj" />
+      <ProjectReference Include="..\PwrTlzDemo.2.Lgr\PwrTlzDemo.2.Lgr.csproj" />
     </ItemGroup>
 
     <ItemGroup>

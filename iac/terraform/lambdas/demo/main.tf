@@ -29,6 +29,17 @@ module "demo-1-prms-lambda" {
   secrets_manager_policy_arn = aws_iam_policy.secretsmanager_policy.arn
 }
 
+module "demo-2-log-lambda" {
+  source                     = "./demo-2-log"
+  environment                = local.environment
+  line_of_business           = local.line_of_business
+  application                = local.application
+  security_group_ids         = [data.aws_security_group.default_security_groups.id]
+  subnet_ids                 = data.aws_subnets.private_subnets.ids
+  secrets_manager_policy_arn = aws_iam_policy.secretsmanager_policy.arn
+  depends_on                 = [module.demo-1-prms-lambda]
+}
+
 
 
 

@@ -3,8 +3,8 @@
 ############
 
 locals {
-  role         = "pwrtlz-demo-1-prms"
-  project_path = "../../../../src/lambdas/PwrTlzDemo/PwrTlzDemo.1.Prms"
+  role         = "pwrtlz-demo-2-lgr"
+  project_path = "../../../../src/lambdas/PwrTlzDemo/PwrTlzDemo.2.Lgr"
 }
 
 ###############
@@ -47,9 +47,9 @@ module "lambda" {
   line_of_business      = var.line_of_business
   role                  = local.role
   architecture          = "arm64"
-  handler_function      = "PwrTlzDemo.1.Prms::PwrTlzDemo.Function::FunctionHandler"
+  handler_function      = "PwrTlzDemo.2.Lgr::PwrTlzDemo.Function::FunctionHandler"
   runtime               = "dotnet8"
-  description           = "PowerTools Demo Function - Parameters"
+  description           = "PowerTools Demo Function - Logging"
   memory_size           = 128
   timeout               = 60
   build_output_path     = "${local.project_path}/bin/Release/net8.0"
@@ -60,6 +60,10 @@ module "lambda" {
   application_log_level = "INFO"
   event_log_level       = "INFO"
   environment_variables = [
+    {
+      name  = "POWERTOOLS_LOGGER_LOG_LEVEL",
+      value = "INFO"
+    },
     {
       name  = "DB_CREDENTIALS_SECRET_NAME",
       value = "int-demo-dev-secret"

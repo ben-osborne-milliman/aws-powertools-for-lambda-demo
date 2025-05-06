@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo.Library", "PwrTl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo.1.Prms", "PwrTlzDemo.1.Prms\PwrTlzDemo.1.Prms.csproj", "{4B8F43EB-1804-49F1-AE78-03781F377766}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo.2.Log", "PwrTlzDemo.2.Log\PwrTlzDemo.2.Log.csproj", "{7A86C963-6FF3-44C2-B310-20B0C98CB78E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo.2.Lgr", "PwrTlzDemo.2.Lgr\PwrTlzDemo.2.Lgr.csproj", "{7A86C963-6FF3-44C2-B310-20B0C98CB78E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwrTlzDemo.3.Trc", "PwrTlzDemo.3.Trc\PwrTlzDemo.3.Trc.csproj", "{50485051-C9DE-4C99-ADE6-1FD9B6EF359E}"
 EndProject
