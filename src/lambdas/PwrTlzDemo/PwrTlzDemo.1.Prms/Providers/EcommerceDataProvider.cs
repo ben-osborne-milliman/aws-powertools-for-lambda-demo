@@ -1,9 +1,7 @@
 using System.Text.Json;
 using AWS.Lambda.Powertools.Parameters;
 using Dapper;
-using dotenv.net.Utilities;
 using Npgsql;
-using PwrTlzDemo.Library.Models;
 
 namespace PwrTlzDemo.Providers;
 

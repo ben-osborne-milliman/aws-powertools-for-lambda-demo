@@ -1,5 +1,3 @@
-using PwrTlzDemo.Providers;
-
 namespace PwrTlzDemo.Services;
 
 internal class RegistrationService

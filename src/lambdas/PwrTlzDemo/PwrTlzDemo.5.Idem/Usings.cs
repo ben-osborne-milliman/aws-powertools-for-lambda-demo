@@ -9,3 +9,4 @@ global using Microsoft.Extensions.Logging;
 global using PwrTlzDemo.Library.Messaging;
 global using PwrTlzDemo.Library.Models;
 global using PwrTlzDemo.Providers;
+global using PwrTlzDemo.Services;
