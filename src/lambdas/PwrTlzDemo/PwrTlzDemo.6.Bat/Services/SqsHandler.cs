@@ -14,7 +14,10 @@ internal class SqsHandler : ISqsRecordHandler
     public async Task<RecordHandlerResult> HandleAsync(SQSEvent.SQSMessage record, CancellationToken cancellationToken)
     {
         if (new Random().Next(1, 101) <= 15) // 15% chance
+        {
+            Logger.LogWarning("Simulating random error");
             throw new AggregateException("Simulated random error");
+        }
 
         var request = JsonSerializer.Deserialize<RegistrationRequest>(record.Body) ??
             throw new AggregateException("Could not deserialize message to RegistrationRequest");
@@ -22,11 +25,12 @@ internal class SqsHandler : ISqsRecordHandler
         try
         {
             await _handlerService.ExecuteAsync(request);
+            Logger.LogInformation("Successfully processed message with ID: {MessageId}", record.MessageId);
             return RecordHandlerResult.None;
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "Error while processing SQSEvent");
+            Logger.LogError(e, "Error processing SQSEvent");
             throw;
         }
     }

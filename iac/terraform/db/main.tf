@@ -60,10 +60,10 @@ module "aurora_cluster" {
   availability_zones                  = ["us-east-1a", "us-east-1b", "us-east-1c"]
   storage_encrypted                   = true
   performance_insights_enabled        = false
-  serverless_auto_pause               = true
+  serverless_auto_pause               = false
   serverless_seconds_until_auto_pause = 300
   serverless_max_capacity             = 4
-  serverless_min_capacity             = 0
+  serverless_min_capacity             = 2
   deletion_protection                 = false
   enabled_cloudwatch_logs_exports     = [ ]
   dns_zone_name                       = local.dns_zone_name

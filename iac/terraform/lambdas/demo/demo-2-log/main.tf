@@ -55,7 +55,7 @@ module "lambda" {
   build_output_path     = "${local.project_path}/bin/Release/net8.0"
   security_group_ids    = var.security_group_ids
   subnet_ids            = var.subnet_ids
-  enable_tracing        = false
+  enable_tracing        = true
   log_format            = "JSON"
   application_log_level = "INFO"
   event_log_level       = "INFO"
