@@ -86,3 +86,25 @@ module "demo-5-idem-lambda" {
     module.demo-4-met-lambda
   ]
 }
+
+module "demo-6-bat-lambda" {
+  source                     = "./demo-6-bat"
+  environment                = local.environment
+  line_of_business           = local.line_of_business
+  application                = local.application
+  security_group_ids         = [data.aws_security_group.default_security_groups.id]
+  subnet_ids                 = data.aws_subnets.private_subnets.ids
+  secrets_manager_policy_arn = aws_iam_policy.secretsmanager_policy.arn
+  idempotency_table_name     = aws_dynamodb_table.idempotency_table.name
+  dynamodb_policy_arn        = aws_iam_policy.dynamodb_policy.arn
+  sqs_policy_arn             = aws_iam_policy.sqs_policy.arn
+  sqs_queue_url              = aws_sqs_queue.fifo_queue.id
+  sqs_queue_name             = aws_sqs_queue.fifo_queue.name
+  depends_on = [
+    module.demo-1-prms-lambda,
+    module.demo-2-log-lambda,
+    module.demo-3-trc-lambda,
+    module.demo-4-met-lambda,
+    module.demo-5-idem-lambda
+  ]
+}

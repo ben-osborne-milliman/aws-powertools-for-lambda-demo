@@ -13,16 +13,11 @@ public class Function
     public Function()
     {
         Tracing.RegisterForAllServices();
-
-        Idempotency
-            .Configure(builder => builder.UseDynamoDb(EnvReader.GetStringValue("IDEMPOTENCY_TABLE")));
-
         _serviceProvider = BuildServiceProvider();
     }
 
     [Metrics(CaptureColdStart = true, Namespace = nameof(PwrTlzDemo))]
     [Tracing]
-    [Idempotent]
     public async Task<RegistrationResponse> FunctionHandler(RegistrationRequest request, ILambdaContext context)
     {
         Logger.LogInformation("FunctionHandler invoked");

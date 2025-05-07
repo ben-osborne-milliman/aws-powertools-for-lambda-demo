@@ -10,3 +10,9 @@ resource "aws_iam_policy" "dynamodb_policy" {
   description = "Policy to allow the lambda to access DynamoDB"
   policy      = data.aws_iam_policy_document.dynamodb_policy.json
 }
+
+resource "aws_iam_policy" "sqs_policy" {
+  name        = "${local.resource_prefix}-sqs-policy"
+  description = "Policy to allow the lambda to access SQS"
+  policy      = data.aws_iam_policy_document.sqs_policy.json
+}

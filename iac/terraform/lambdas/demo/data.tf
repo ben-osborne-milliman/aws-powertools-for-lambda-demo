@@ -57,3 +57,17 @@ data "aws_iam_policy_document" "dynamodb_policy" {
     ]
   }
 }
+
+data "aws_iam_policy_document" "sqs_policy" {
+  statement {
+    actions = [
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes",
+      "sqs:ChangeMessageVisibility"
+    ]
+    resources = [
+      aws_sqs_queue.fifo_queue.arn
+    ]
+  }
+}
