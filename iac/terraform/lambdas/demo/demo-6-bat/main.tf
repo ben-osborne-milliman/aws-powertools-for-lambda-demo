@@ -47,6 +47,10 @@ variable "sqs_policy_arn" {
   type = string
 }
 
+variable "sqs_queue_arn" {
+  type = string
+}
+
 variable "sqs_queue_name" {
   type = string
 }
@@ -91,6 +95,22 @@ module "lambda" {
     {
       name  = "POWERTOOLS_TRACER_CAPTURE_RESPONSE",
       value = "false"
+    },
+    {
+      name  = "POWERTOOLS_BATCH_ERROR_HANDLING_POLICY",
+      value = "DeriveFromEvent"
+    },
+    {
+      name  = "POWERTOOLS_BATCH_MAX_DEGREE_OF_PARALLELISM",
+      value = "1"
+    },
+    {
+      name  = "POWERTOOLS_BATCH_PARALLEL_ENABLED",
+      value = "false"
+    },
+    {
+      name  = "POWERTOOLS_BATCH_THROW_ON_FULL_BATCH_FAILURE",
+      value = "true"
     },
     {
       name  = "DB_CREDENTIALS_SECRET_NAME",
@@ -144,4 +164,13 @@ resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
 resource "aws_iam_role_policy_attachment" "sqs_policy_attachment" {
   role       = module.lambda.lambda_iam_role_name
   policy_arn = var.sqs_policy_arn
+}
+
+resource "aws_lambda_event_source_mapping" "sqs_trigger" {
+  event_source_arn = var.sqs_queue_arn
+  function_name    = module.lambda.function_name
+  batch_size       = 5
+  function_response_types = [
+    "ReportBatchItemFailures"
+  ]
 }

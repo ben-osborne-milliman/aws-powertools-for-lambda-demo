@@ -2,15 +2,9 @@ namespace PwrTlzDemo.Services;
 
 internal class HandlerService
 {
-    private readonly RegistrationService _registrationService;
+    private readonly RegistrationService _registrationService = new();
 
-    private readonly LibraryService _libraryService;
-
-    public HandlerService(RegistrationService registrationService, LibraryService libraryService)
-    {
-        _registrationService = registrationService ?? throw new ArgumentNullException(nameof(registrationService));
-        _libraryService = libraryService ?? throw new ArgumentNullException(nameof(libraryService));
-    }
+    private readonly LibraryService _libraryService = new();
 
     [Tracing]
     [Logging(Service = "HandlerService")]

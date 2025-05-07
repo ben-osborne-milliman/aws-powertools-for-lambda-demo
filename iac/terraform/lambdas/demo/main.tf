@@ -98,6 +98,7 @@ module "demo-6-bat-lambda" {
   idempotency_table_name     = aws_dynamodb_table.idempotency_table.name
   dynamodb_policy_arn        = aws_iam_policy.dynamodb_policy.arn
   sqs_policy_arn             = aws_iam_policy.sqs_policy.arn
+  sqs_queue_arn              = aws_sqs_queue.fifo_queue.arn
   sqs_queue_url              = aws_sqs_queue.fifo_queue.id
   sqs_queue_name             = aws_sqs_queue.fifo_queue.name
   depends_on = [

@@ -6,11 +6,9 @@ namespace PwrTlzDemo.Services;
 
 internal class LibraryService
 {
-    private readonly IHttpClientFactory _clientFactory;
-
-    public LibraryService(IHttpClientFactory clientFactory)
+    public LibraryService()
     {
-        _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
+
     }
 
     [Tracing(CaptureMode = TracingCaptureMode.Disabled)]
@@ -24,7 +22,7 @@ internal class LibraryService
 
         var stopwatch = Stopwatch.StartNew();
 
-        using var httpClient  = _clientFactory.CreateClient();
+        using var httpClient = new HttpClient();
         using var request = new HttpRequestMessage(HttpMethod.Get, $"http://openlibrary.org/search.json?q={randomQuery}&limit=5");
         using var response = await httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
