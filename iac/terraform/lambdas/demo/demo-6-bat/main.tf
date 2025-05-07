@@ -169,7 +169,7 @@ resource "aws_iam_role_policy_attachment" "sqs_policy_attachment" {
 resource "aws_lambda_event_source_mapping" "sqs_trigger" {
   event_source_arn = var.sqs_queue_arn
   function_name    = module.lambda.function_name
-  batch_size       = 5
+  batch_size       = 10
   function_response_types = [
     "ReportBatchItemFailures"
   ]
