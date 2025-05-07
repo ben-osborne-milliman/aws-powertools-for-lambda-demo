@@ -13,6 +13,9 @@ internal class SqsHandler : ISqsRecordHandler
     [Logging(Service = "SqsHandler")]
     public async Task<RecordHandlerResult> HandleAsync(SQSEvent.SQSMessage record, CancellationToken cancellationToken)
     {
+        if (new Random().Next(1, 101) <= 15) // 15% chance
+            throw new AggregateException("Simulated random error");
+
         var request = JsonSerializer.Deserialize<RegistrationRequest>(record.Body) ??
             throw new AggregateException("Could not deserialize message to RegistrationRequest");
 
